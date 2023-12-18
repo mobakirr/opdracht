@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors Game</title>
+    <style>
+        img {
+            width: 100px; /* Aanpassen aan de grootte van je afbeeldingen */
+            height: 100px; /* Aanpassen aan de grootte van je afbeeldingen */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Rock-Paper-Scissors Game</h1>
+    
+    <h2>Your choice: <span id="playerChoice"></span></h2>
+    <h2>Computer's choice: <span id="computerChoice"></span></h2>
+    <h2 id="result"></h2>
+    
+    <p>Click on an image to make your choice:</p>
+    
+    <img src="rock.jpg" alt="Rock" onclick="userChoice('rock')">
+    <img src="paper.jpg" alt="Paper" onclick="userChoice('paper')">
+    <img src="scissors.jpg" alt="Scissors" onclick="userChoice('scissors')">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const computerChoiceElement = document.getElementById("computerChoice");
+            const playerChoiceElement = document.getElementById("playerChoice");
+            const resultOutputElement = document.getElementById("result");
+
+            let player = '';
+            let computer = '';
+            let result = '';
+
+            const possibleChoices = document.querySelectorAll('img');
+
+            possibleChoices.forEach(choice => {
+                choice.addEventListener('click', function(e) {
+                    playerChoiceElement.innerHTML = e.target.alt;
+                    player = e.target.alt;
+                    generateComputerChoice();
+                    getResult();
+                });
+            });
+
+            function generateComputerChoice() {
+                const randomNum = Math.floor(Math.random() * 3) + 1;
+
+                if (randomNum === 1) computer = 'rock';
+                else if (randomNum === 2) computer = 'paper';
+                else if (randomNum === 3) computer = 'scissors';
+
+                computerChoiceElement.innerHTML = computer;
+            }
+
+            function getResult() {
+                if (computer === player) result = 'It\'s a tie!';
+                else if (
+                    (player === 'rock' && computer === 'scissors') ||
+                    (player === 'paper' && computer === 'rock') ||
+                    (player === 'scissors' && computer === 'paper')
+                ) {
+                    result = 'You win!';
+                } else {
+                    result = 'You lose!';
+                }
+
+                resultOutputElement.innerHTML = 'Result: ' + result;
+            }
+        });
+    </script>
+
+</body>
+</html>
